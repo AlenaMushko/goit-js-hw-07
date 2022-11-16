@@ -1,31 +1,21 @@
 import { galleryItems } from './gallery-items.js';
 
-// 3)Ініціалізація бібліотеки після створення і додання елементів галереї у div.gallery.
-//  Для цього ознайомся з документацією SimpleLightbox - насамперед секції «Usage» і «Markup».
-// 4)Подивися в документації секцію «Options» і додай відображення підписів до зображень з 
-// атрибута alt.Нехай підпис буде знизу і з'являється через 250 мілісекунд після відкриття
-// зображення.
-
 const galleryEl = document.querySelector(".gallery");
 
-// galleryEl.addEventListener("click", onCreateBigIMGClick);
+galleryEl.addEventListener("click", onClickCreateModalWindow);
 
 function creatItem({ preview, original, description }) {
-  const itemEl = document.createElement("div");
-  itemEl.classList.add("gallery__item");
 
-  const itemLinkEl = document.createElement("a");
-  itemLinkEl.classList.add("gallery__link");
-  itemLinkEl.href = original;
+  const itemEl = document.createElement("a");
+  itemEl.classList.add("gallery__item");
+  itemEl.href = original;
 
   const imgEl = document.createElement("img");
   imgEl.classList.add("gallery__image");
   imgEl.src = preview;
-  imgEl.dataset.source = original;
   imgEl.alt = description;
 
-  itemLinkEl.append(imgEl);
-  itemEl.append(itemLinkEl);
+  itemEl.append(imgEl);
 
   return itemEl;
 }
@@ -37,5 +27,19 @@ function creatGalleryItems(arr) {
 
 creatGalleryItems(galleryItems);
 
+function onClickCreateModalWindow(e) {
+  // забороняємо стандартні дії
+  e.preventDefault();
+  // вказую, що відкривати лише img
+  const isIMGEl = e.target.nodeName;
+  if (isIMGEl !== "IMG") {
+    return;
+  }
+  // підключаємо бібліотеку SimpleLightbox
+  const lightbox = new SimpleLightbox('.gallery a', {
+    captionsData: 'alt',
+    captionsDelay: 250,
+  });
+};
 
 console.log(galleryItems);

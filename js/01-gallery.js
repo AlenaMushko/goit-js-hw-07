@@ -45,11 +45,11 @@ function onCreateBigIMGClick(e) {
 `)
 
   instance.show()
-  
+  console.log(e.target);
   // закриття модалки через esc
-  galleryEl.addEventListener('keydown', onCloseModalWindow);
+  galleryEl.addEventListener('keydown', onESCCloseModal);
 
-  function onCloseModalWindow(e) {
+  function onESCCloseModal(e) {
     if (e.code === 'Escape') {
       instance.close();
     }
