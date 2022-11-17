@@ -4,32 +4,15 @@ const galleryEl = document.querySelector(".gallery");
 
 galleryEl.addEventListener("click", onCreateBigIMGClick);
 
-function creatItem({ preview, original, description }) {
-  const itemEl = document.createElement("div");
-  itemEl.classList.add("gallery__item");
+const itemEl = galleryItems
+  .map(
+    (image) => `
+  <div class="gallery__item"><a class="gallery__link" href =${image.original} ><img class="gallery__image" 
+  src = ${image.preview} data-source = ${image.original} alt = ${image.description}/></a></div>`
+  )
+  .join("");
 
-  const itemLinkEl = document.createElement("a");
-  itemLinkEl.classList.add("gallery__link");
-  itemLinkEl.href = original;
-
-  const imgEl = document.createElement("img");
-  imgEl.classList.add("gallery__image");
-  imgEl.src = preview;
-  imgEl.dataset.source = original;
-  imgEl.alt = description;
-
-  itemLinkEl.append(imgEl);
-  itemEl.append(itemLinkEl);
-
-  return itemEl;
-}
-
-function creatGalleryItems(arr) {
-  const items = arr.map((item) => creatItem(item));
-  galleryEl.append(...items);
-}
-
-creatGalleryItems(galleryItems);
+galleryEl.insertAdjacentHTML("beforeend", itemEl);
 
 function onCreateBigIMGClick(e) {
   // забороняємо стандартні дії
@@ -40,17 +23,19 @@ function onCreateBigIMGClick(e) {
     return;
   }
   // виклик бібліртеки, відкриття модалки
-  const instance = basicLightbox.create(`
+  const instance = basicLightbox.create(
+    `
     <img src='${e.target.dataset.source}' width="800" height="600">
-`)
+  `,
+    { onShow: (instance) => {}, onClose: (instance) => {} }
+  );
+  instance.show();
 
-  instance.show()
-  console.log(e.target);
   // закриття модалки через esc
-  galleryEl.addEventListener('keydown', onESCCloseModal);
+  galleryEl.addEventListener("keydown", onESCCloseModal);
 
   function onESCCloseModal(e) {
-    if (e.code === 'Escape') {
+    if (e.code === "Escape") {
       instance.close();
     }
   }

@@ -1,31 +1,18 @@
-import { galleryItems } from './gallery-items.js';
+import { galleryItems } from "./gallery-items.js";
 
 const galleryEl = document.querySelector(".gallery");
 
 galleryEl.addEventListener("click", onClickCreateModalWindow);
 
-function creatItem({ preview, original, description }) {
+const itemEl = galleryItems
+  .map(
+    (image) => `
+<a class="gallery__item" href =${image.original} ><img class="gallery__image" 
+  src = ${image.preview} alt = ${image.description}/></a>`
+  )
+  .join("");
 
-  const itemEl = document.createElement("a");
-  itemEl.classList.add("gallery__item");
-  itemEl.href = original;
-
-  const imgEl = document.createElement("img");
-  imgEl.classList.add("gallery__image");
-  imgEl.src = preview;
-  imgEl.alt = description;
-
-  itemEl.append(imgEl);
-
-  return itemEl;
-}
-
-function creatGalleryItems(arr) {
-  const items = arr.map((item) => creatItem(item));
-  galleryEl.append(...items);
-}
-
-creatGalleryItems(galleryItems);
+galleryEl.insertAdjacentHTML("beforeend", itemEl);
 
 function onClickCreateModalWindow(e) {
   // забороняємо стандартні дії
@@ -35,11 +22,10 @@ function onClickCreateModalWindow(e) {
   if (isIMGEl !== "IMG") {
     return;
   }
+}
   // підключаємо бібліотеку SimpleLightbox
-  const lightbox = new SimpleLightbox('.gallery a', {
-    captionsData: 'alt',
+  const lightbox = new SimpleLightbox(".gallery a", {
+    captionsData: "alt",
     captionsDelay: 250,
   });
-};
-
 console.log(galleryItems);
