@@ -32,7 +32,7 @@ function onCreateBigIMGClick(e) {
         galleryEl.addEventListener("keydown", onESCCloseModal);
       },
       onClose: (instance) => {
-        galleryEl.addEventListener("keydown", onESCCloseModal);
+        galleryEl.removeEventListener("keydown", onESCCloseModal);
       },
     }
   );
