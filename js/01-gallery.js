@@ -27,7 +27,14 @@ function onCreateBigIMGClick(e) {
     `
     <img src='${e.target.dataset.source}' width="800" height="600">
   `,
-    { onShow: (instance) => {}, onClose: (instance) => {} }
+    {
+      onShow: (instance) => {
+        galleryEl.addEventListener("keydown", onESCCloseModal);
+      },
+      onClose: (instance) => {
+        galleryEl.addEventListener("keydown", onESCCloseModal);
+      },
+    }
   );
   instance.show();
 
